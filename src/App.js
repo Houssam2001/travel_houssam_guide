@@ -11,11 +11,16 @@ const App = () => {
     const [coordinates, setCoordinates] = useState({})
     const [bounds, setBounds] = useState(null)
     useEffect(() => {
+        navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
+            setCoordinates({lat: latitude, lng: longitude})
+        })
+    }, []);
+    useEffect(() => {
         getPlacesData()
             .then((data) => {
                 setPlaces(data)
             })
-    }, [])
+    }, [coordinates.bounds])
     return (
         <>
             <CssBaseline/>
@@ -27,9 +32,10 @@ const App = () => {
 
                 <Grid item xs={12} md={8}>
                     <Map
+                        coords={coordinates}
                         setCoordinates={setCoordinates}
                         setBounds={setBounds}
-                        coordinates={coordinates}
+                        bounds={bounds}
                     />
                 </Grid>
 
