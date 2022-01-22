@@ -4,28 +4,27 @@ import {CircularProgress, Typography, InputLabel, Grid, MenuItem, FormControl, S
 import useStyles from './styles'
 import PlaceDetails from "../PlaceDetails/PlaceDetails";
 
-const List = ({places, childClicked, isLoading}) => {
+const List = ({places, childClicked, isLoading,rating,setRating,setType,type}) => {
     const [elRef, setRef] = useState([])
     useEffect(() => {
-        const ref = Array(places.length).fill().map((_, i) => {
+        const ref = Array(places?.length).fill().map((_, i) => {
             return elRef[i] || createRef()
         })
         setRef(ref)
     }, [places])
     const classes = useStyles()
-    const [type, SetType] = useState('restaurants')
-    const [rating, SetRating] = useState('')
+
     return (
         <div className={classes.container}>
             <Typography variant='h4'>Restaurants , Hotels & Attractions</Typography>
             {isLoading ? (<div className={classes.loading}>
-                <CircularProgress size={'5'}/>
-            </div>) : (
-                <>
+                    <CircularProgress size={'5pem'}/>
+                </div>)
+                : (<>
                     <FormControl className={classes.formControl}>
                         <InputLabel>Type</InputLabel>
                         <Select value={type} onChange={(e) => {
-                            SetType(e.target.value)
+                            setType(e.target.value)
                         }}>
                             <MenuItem value='restaurants'>Restaurants</MenuItem>
                             <MenuItem value='hotels'>Hotels</MenuItem>
@@ -35,7 +34,7 @@ const List = ({places, childClicked, isLoading}) => {
                     <FormControl className={classes.formControl}>
                         <InputLabel>Rating</InputLabel>
                         <Select value={rating} onChange={(e) => {
-                            SetRating(e.target.value)
+                            setRating(e.target.value)
                         }}>
                             <MenuItem value={0}>All</MenuItem>
                             <MenuItem value={3}>Above 3.0</MenuItem>
@@ -56,8 +55,7 @@ const List = ({places, childClicked, isLoading}) => {
                         ))}
                     </Grid>
 
-                </>
-            )
+                </>)
             }</div>
     )
 }
